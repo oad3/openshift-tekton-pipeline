@@ -1,0 +1,18 @@
+# deploy-task.yaml
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: deploy-task
+spec:
+  workspaces:
+    - name: input
+      description: ""
+  steps:
+    - name: buildoutput
+      image: openshift/origin-cli:latest
+      command: ["/bin/bash", "-c"]
+      args:
+        - |-
+          CHECKOUT_DIR="$(workspaces.input.path)"
+          cd "$CHECKOUT_DIR"
+          oc apply -f ./postgresql-client-deployment.yml

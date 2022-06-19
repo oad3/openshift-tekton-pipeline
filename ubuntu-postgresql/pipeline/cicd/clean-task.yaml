@@ -1,0 +1,26 @@
+# clean-task.yaml
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: clean-task
+spec:
+  steps:
+    - name: dockerbuild
+      image: openshift/origin-cli:latest
+      script: |
+        cat <<EOF | oc new-build --dockerfile=- --to=oad3jp999/postgresql-client:0.0.1
+        FROM oad3jp999/postgresql-client:0.0.1
+        USER root
+        RUN touch /foobar
+        USER 1001
+        EOF
+
+    - name: get-all
+      image: openshift/origin-cli:latest
+      script: |
+        oc get imagestream
+
+    #   command: ["/usr/bin/oc"]
+    #   args:
+    #     - get
+    #     - all

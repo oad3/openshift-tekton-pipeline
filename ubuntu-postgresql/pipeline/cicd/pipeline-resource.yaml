@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: private-repository
+spec:
+  type: git
+  params:
+  - name: url
+    value: https://github.com/oad3/openshift-tekton-pipeline.git
+  - name: revision
+    value: main

@@ -1,0 +1,42 @@
+# build-task.yaml
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-task
+spec:
+  workspaces:
+    - name: output
+      description: The git repo will be cloned onto the volume backing this workspace
+  steps:
+    - name: build
+      image: openshift/origin-cli:latest
+      command: ["/usr/bin/oc"]
+      args:
+        - status
+    - name: buildoutput
+      image: openshift/origin-cli:latest
+      script: |
+        CHECKOUT_DIR="$(workspaces.output.path)"
+        cd "$CHECKOUT_DIR"
+        # echo test > ./test.txt
+
+        cat <<EOL > ./postgresql-client-deployment.yml
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: postgresql-client-deployment
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                io.kompose.service: postgresql-client
+            template:
+              metadata:
+                labels:
+                  io.kompose.service: postgresql-client
+              spec:
+                containers:
+                  - image: oad3jp999/postgresql-client:0.0.1
+                    name: postgresql-client
+                restartPolicy: Always
+        EOL

@@ -1,0 +1,28 @@
+# cicd-pipeline.yaml
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: cicd-pipeline
+spec:
+  workspaces:
+    - name: local-source
+  tasks:
+    - name: build
+      taskRef:
+        name: build-task
+      workspaces:
+        - name: output
+          workspace: local-source
+    - name: deploy
+      taskRef:
+        name: deploy-task
+      workspaces:
+        - name: input
+          workspace: local-source
+      runAfter:
+        - build
+    - name: clean
+      taskRef:
+        name: clean-task
+      runAfter:
+        - deploy

@@ -1,0 +1,12 @@
+Log created: 2022-06-19T05:08:42.973605000Z
+Process ID:  3135 (0xc3f)
+Parent PID:  1 (0x1)
+Executable:  /usr/lib/virtualbox/VBoxHeadless
+Arg[0]: /usr/lib/virtualbox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: minishift
+Arg[3]: --startvm
+Arg[4]: 11322f94-1e2a-470e-a74c-27980ba5861b
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2

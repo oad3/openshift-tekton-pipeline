@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: cicd-pipeline-run27
+spec:
+  pipelineRef:
+    name: cicd-pipeline
+  workspaces:
+    - name: local-source
+      persistentVolumeClaim:
+        claimName: maven-repo-pvc
